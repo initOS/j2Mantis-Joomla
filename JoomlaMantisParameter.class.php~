@@ -76,7 +76,12 @@ class JoomlaMantisParameter {
    * @param string $name The name of the Projekt
    */
   function __construct( $name = '', $isAdmin = false){
-  	$params = &JComponentHelper::getParams( 'com_j2mantis' );
+  	if( $isAdmin ){
+        $params = &JComponentHelper::getParams( 'com_j2mantis' );
+    }else{
+        $app = JFactory::getApplication('site');
+        $params =  & $app->getParams('com_j2mantis');
+    }
   	$this->wsdlUrl = $params->get('url');
   	$this->mantisUser = $params->get('username');
   	$this->mantisPassword = $params->get('password');
