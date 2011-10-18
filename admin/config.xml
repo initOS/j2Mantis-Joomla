@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset
+		name="j2mantis"
+		label="J2Mantis"
+		description="Einstellung für j2Mantis">
+ 
+	 <field type="text" name="url" size="30" default="" label="Webservice url:" description="Please enter the required url" />
+	 <field type="text" name="username" size="30" default="" label="Username:" description="Please enter the required username" />
+	 <field type="password" name="password" size="30" default="" label="Password:" description="Please enter the required password" />
+	 <field type="text" name="projekt" size="3" default="" label="Projekt ID:" description="Please enter a id of a projekt" />	
+ 	 <field type="text" name="email" size="30" default="" label="Backup Email:" description="Enter a email where to send if webservice not works" />
+ 	 <field name="captcha" type="radio" default="1" label="use captcha" description="The plugin must be install">
+  		<option value="0">dont use</option>
+  		<option value="1">use</option>
+	 </field>
+ 	<field type="password" name="key" size="30" default="" label="Secret Key:" description="Please enter the required secret key for id" />
+	  <field name="overview" type="radio" default="1" label="overview:" description="You can deactivate list of bugs">
+  		<option value="0">not active</option>
+  		<option value="1">active</option>
+	 </field>
+ </fieldset>
+ 
+</config>

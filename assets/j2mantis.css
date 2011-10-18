@@ -1,0 +1,41 @@
+@CHARSET "UTF-8";
+
+#j2Mantis label{ width: 100px; float: left; margin-bottom: 3px; }
+#j2Mantis input, textarea, select{ float: left; margin-left: 120px; margin-bottom: 3px; }
+#j2Mantis br{ clear: both; }
+#j2Mantis h2{margin-top: 25px; margin-bottom: 15px; }
+#j2Mantis label.invalid{ color: red !important; }
+#j2Mantis input.invalid{ border-color: red !important; }
+#j2Mantis .error{
+	border: solid 1px red;
+	padding: 10px;
+	margin: 5px;
+	font-weight: bold;
+	font-size: 1.5em;
+	color: #000;
+	background: #fcc;
+}
+
+#j2Mantis td, #j2Mantis th{
+	border: 1px solid #666;
+	padding: 5px;
+}
+#j2Mantis table{
+	border-spacing: 0px;
+	width: 100%;
+}
+#j2Mantis .head{
+	background: #ccc;	
+}
+#j2Mantis .author{
+	width: 150px;
+	background: #ccc;
+}
+#j2Mantis .author span{
+	font-size: 0.8em;
+	font-style: italic;
+}
+
+#mt_overview{
+	width: 100%;
+}

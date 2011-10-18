@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="j2Mantis add Bug">
+		<message>a formular to create a new Bug</message>
+	</layout>
+	<state>
+		<name>J2Manits add a Bug</name>
+		<description>Adds a new Bug to a given Project</description>
+		<params>
+			<param type="text" name="caption" size="15" label="Caption:" description="Please enter a alternative caption" />
+		</params>
+		<advanced>
+		</advanced>
+		
+	</state>
+	
+</metadata>

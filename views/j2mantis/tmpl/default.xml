@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="j2Mantis overview">
+		<message>Bug overview of one project</message>
+	</layout>
+	<state>
+		<name>J2Manits Bug overview</name>
+		<description>Shows a overview to a given Project</description>
+		<params>
+			<!--<param type="text" name="projekt_menu" size="3" label="Projekt ID:" description="Please enter a id of a projekt" />	-->
+		</params>
+		<advanced>
+		</advanced>
+		
+	</state>
+	
+</metadata>

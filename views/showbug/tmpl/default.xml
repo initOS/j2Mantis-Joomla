@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="j2Mantis show a Bug">
+		<message>show one seleceted Bug</message>
+	</layout>
+	<state>
+		<name>J2Manits show a Bug</name>
+		<description>shows a selected Bug from a given Project</description>
+		<params>
+			<param type="text" name="bug_id" size="3" label="Bug ID:" description="Please enter a id of a bug" />
+
+		</params>
+		<advanced>
+		</advanced>
+		
+	</state>
+	
+</metadata>
