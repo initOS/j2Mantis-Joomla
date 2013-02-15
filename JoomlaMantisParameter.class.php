@@ -35,7 +35,7 @@ class JoomlaMantisParameter {
    *
    * @var int of array
    */
-  private $mantisProjektIds;
+  private $mantisProjectIds;
 
   /**
    * The name of the custome field which contain the name of a customer.
@@ -82,24 +82,28 @@ class JoomlaMantisParameter {
    * @param string $passwd Password of the Mantis Account
    * @param string $name The name of the Projekt
    */
-  function __construct( $name = '', $isAdmin = false){
-  // configuration params, combining parameters from "component" and "menu" level
-  $app        = JFactory::getApplication();
-  $params     = $app->getParams();
-  //$menuids 	= preg_split('/,/', $params->get('projektmenu') );
+	function __construct($name = '', $isAdmin = false)
+	{
+		// configuration params, combining parameters from "component" and "menu" level
+		$app = JFactory::getApplication();
+		if ($app->isSite()) {
+			// when on 'site' merge menu and 'component'
+			$params = $app->getParams('com_j2mantis');
+		} else {
+			$params = &JComponentHelper::getParams('com_j2mantis');
+		}
 
-  //$params = &JComponentHelper::getParams( 'com_j2mantis' );
-  	$this->wsdlUrl = $params->get('url');
-  	$this->mantisUser = $params->get('username');
-  	$this->mantisPassword = $params->get('password');
-	$this->mantisProjectIds = preg_split('/,/', $params->get('projekt') );
-  	$this->mantisProjectId = $this->mantisProjectIds[0];
-  	$this->key = $params->get('key');
-  	$this->mantisProjectName = $name;
-    $this->mantisCaption = $params->get('caption');
-  }
-  
-  /**
+		$this->wsdlUrl = $params->get('url');
+		$this->mantisUser = $params->get('username');
+		$this->mantisPassword = $params->get('password');
+		$this->mantisProjectIds = preg_split('/,/', $params->get('project'));
+		$this->mantisProjectId = $this->mantisProjectIds[0];
+		$this->key = $params->get('key');
+		$this->mantisProjectName = $name;
+		$this->mantisCaption = $params->get('caption');
+	}
+
+	/**
    * @see $mantisProjectName
    * @return string
    */

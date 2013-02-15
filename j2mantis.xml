@@ -37,7 +37,7 @@
         <param name="url" default=""/>
         <param name="username" default=""/>
         <param name="password" default=""/>
-        <param name="projekt" default=""/>
+        <param name="project" default=""/>
         <param name="email" default=""/>
         <param name="captcha" default="1"/>
         <param name="key" default=""/>

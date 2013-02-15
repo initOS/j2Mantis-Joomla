@@ -6,9 +6,9 @@
     <fields name="params">
         <fieldset name="basic" label="J2Manits Bug overview">
             <field type="text"
-                   name="projekt"
+                   name="project"
                    size="30"
-                   label="Projekt ID:"
+                   label="Project ID:"
                    description="Please enter a id of a project"/>
             <field type="text"
                    name="username"
