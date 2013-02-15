@@ -169,7 +169,7 @@ class JoomlaMantisController extends JController
      */
     function display($cachable = false, $urlparams = false)
     {
-        parent::display($cachable, $safeurlparams);
+        parent::display($cachable, $urlparams);
 
         return $this;
     }
