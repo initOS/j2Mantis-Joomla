@@ -99,24 +99,22 @@ class MantisConnector{
 	    }		
 		//var_dump($getArray);
 		$returnArray = array();
-		while( !empty($getArray) ){  
+		$projectids=$this->settings->getMantisProjectIds();
+		while( !empty($getArray) ){
 			$project = array_pop($getArray);
-			if( ( in_array( $project->id  , $this->settings->getMantisProjectIds() ) || $noCheck )
+			if( ( in_array( $project->id, $projectids ) || $noCheck )
 				&& $project->enabled ){
 				$returnArray[$project->id] = $project->name;
-				if( $withSubProjects ){
-					foreach( $project->subprojects as $p ){
-						$p->name = $project->name . " >> " . $p->name;
-						$p->parrentId = $project->id;
-						$this->settings->addMantisProjectId($p->id);
-						array_push($getArray, $p );
-					}
-				}
-
 			}
-			
-		}      
-			
+			if( $withSubProjects ){
+				foreach( $project->subprojects as $p ){
+					$p->name = $project->name . " >> " . $p->name;
+					$p->parrentId = $project->id;
+					$this->settings->addMantisProjectId($p->id);
+					array_push($getArray, $p );
+				}
+			}
+		}
 		
         return $returnArray;
     }
