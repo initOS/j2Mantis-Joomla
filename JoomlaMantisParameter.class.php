@@ -57,7 +57,14 @@ class JoomlaMantisParameter {
    * @var string
    */
   private $mantisPassword;
-  
+
+	/**
+	 * The caption for form
+	 *
+	 * @var string
+	 */
+	private $mantisCaption;
+
   /**
    * The URL to the websersice description file
    *
@@ -76,7 +83,12 @@ class JoomlaMantisParameter {
    * @param string $name The name of the Projekt
    */
   function __construct( $name = '', $isAdmin = false){
-  	$params = &JComponentHelper::getParams( 'com_j2mantis' );
+  // configuration params, combining parameters from "component" and "menu" level
+  $app        = JFactory::getApplication();
+  $params     = $app->getParams();
+  //$menuids 	= preg_split('/,/', $params->get('projektmenu') );
+
+  //$params = &JComponentHelper::getParams( 'com_j2mantis' );
   	$this->wsdlUrl = $params->get('url');
   	$this->mantisUser = $params->get('username');
   	$this->mantisPassword = $params->get('password');
@@ -84,6 +96,7 @@ class JoomlaMantisParameter {
   	$this->mantisProjectId = $this->mantisProjectIds[0];
   	$this->key = $params->get('key');
   	$this->mantisProjectName = $name;
+    $this->mantisCaption = $params->get('caption');
   }
   
   /**
@@ -136,7 +149,15 @@ class JoomlaMantisParameter {
   public function getMantisPassword() {
     return $this->mantisPassword;  
   }
-  
+
+  /**
+   * @see $mantisCaption
+   * @return string
+   */
+  public function getMantisCaption() {
+	return $this->mantisCaption;
+  }
+
   /**
    * @see $wsdlUrl
    * @return string

@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="j2Mantis overview">
-		<message>Bug overview of one project</message>
-	</layout>
-	<state>
-		<name>J2Manits Bug overview</name>
-		<description>Shows a overview to a given Project</description>
-		<params>
-			<!--<param type="text" name="projekt_menu" size="3" label="Projekt ID:" description="Please enter a id of a projekt" />	-->
-		</params>
-		<advanced>
-		</advanced>
-		
-	</state>
-	
+    <layout title="j2Mantis overview">
+        <message>Bug overview of one project</message>
+    </layout>
+    <fields name="params">
+        <fieldset name="basic" label="J2Manits Bug overview">
+            <field type="text"
+                   name="projekt"
+                   size="30"
+                   label="Projekt ID:"
+                   description="Please enter a id of a project"/>
+            <field type="text"
+                   name="username"
+                   autocomplete="off"
+                   size="30"
+                   default=""
+                   label="Mantis Username:"
+                   description="Please enter the required username"/>
+            <field type="password"
+                   name="password"
+                   autocomplete="off"
+                   size="30"
+                   default=""
+                   label="Mantis Password:"
+                   description="Please enter the required password"/>
+        </fieldset>
+    </fields>
 </metadata>

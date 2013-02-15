@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="j2Mantis add Bug">
-		<message>a formular to create a new Bug</message>
-	</layout>
-	<state>
-		<name>J2Manits add a Bug</name>
-		<description>Adds a new Bug to a given Project</description>
-		<params>
-			<param type="text" name="caption" size="15" label="Caption:" description="Please enter a alternative caption" />
-		</params>
-		<advanced>
-		</advanced>
-		
-	</state>
-	
+    <layout title="j2Mantis add Bug">
+        <message>a form to create a new Bug</message>
+    </layout>
+    <fields name="params">
+        <fieldset name="basic" label="J2Manits Bug overview">
+            <field type="text"
+                   name="caption"
+                   size="15"
+                   label="Caption:"
+                   description="Please enter a alternative caption"/>
+            <field type="text"
+                   name="username"
+                   autocomplete="off"
+                   size="30"
+                   default=""
+                   label="Username:"
+                   description="Please enter the required username"/>
+            <field type="password"
+                   name="password"
+                   autocomplete="off"
+                   size="30"
+                   default="" label="Password:"
+                   description="Please enter the required password"/>
+        </fieldset>
+    </fields>
 </metadata>

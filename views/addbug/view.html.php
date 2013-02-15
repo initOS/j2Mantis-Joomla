@@ -38,10 +38,8 @@ class J2MantisViewaddbug extends JView
 		$cat = $Mantis->getAllCategoriesOfProject();
         $this->assignRef( 'cat', $cat);
 
-		$params = &JComponentHelper::getParams( 'com_j2mantis' );
-		$defCaption = $params->get('caption');
- 		
-    	$caption = ($defCaption) ? $defCaption : JText::_('New problem added'); //"Neues Problem hinzufügen";
+		$defCaption = $settings->getMantisCaption();
+    	$caption = ($defCaption) ? $defCaption : JText::_('New problem added');
         $this->assignRef( 'caption', $caption );
         parent::display($tpl);
     }
