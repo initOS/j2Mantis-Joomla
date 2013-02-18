@@ -1,57 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-    <layout title="Add an Issue">
-        <message>Form to add/create new issue</message>
+    <layout title="j2Mantis add Bug">
+        <message>a form to create a new Bug</message>
     </layout>
     <fields name="params">
         <fieldset name="basic" label="J2Manits Bug overview">
             <field type="text"
-                   name="project"
-                   size="30"
-                   label="Project ID:"
-                   description="Please enter (comma separted list of) project(s)"/>
-            <field type="text"
-                   name="Custom caption, adding bug"
-                   size="60"
+                   name="caption"
+                   size="15"
                    label="Caption:"
                    description="Please enter a alternative caption"/>
-        </fieldset>
-        <fieldset name="reportoptions" label="Options for fields">
-            <field name="fo_name"
-                   type="list"
-                   default="1"
-                   label="Name input"
-                   description="Does a name needs to be supplied upon issue submission">
-                <option value="0">Optional</option>
-                <option value="1">Mandatory</option>
-            </field>
-            <field name="fo_nameedit"
-                   type="radio"
-                   default="1"
-                   label="Name editable"
-                   description="Can user change name if pre-supplied based on logged in user">
-                <option value="1">Yes</option>
-                <option value="0">No</option>
-            </field>
-            <field type="spacer" name="myspacer" hr="true" />
-            <field name="fo_email"
-                   type="list"
-                   default="1"
-                   label="E-mail input"
-                   description="Does an email address need to be supplied upon issue submission">
-                <option value="0">Optional</option>
-                <option value="1">Mandatory</option>
-            </field>
-            <field name="fo_emailedit"
-                   type="radio"
-                   default="1"
-                   label="E-mail editable"
-                   description="Can user change email if pre-supplied based on logged in user">
-                <option value="1">Yes</option>
-                <option value="0">No</option>
-            </field>
-        </fieldset>
-        <fieldset name="credentials" label="Alternative mantis credentials">
             <field type="text"
                    name="username"
                    autocomplete="off"
