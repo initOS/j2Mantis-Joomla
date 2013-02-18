@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-    <layout title="j2Mantis overview">
-        <message>Bug overview of one project</message>
+    <layout title="List of issues">
+        <message>Overview of issues for project(s)</message>
     </layout>
     <fields name="params">
         <fieldset name="basic" label="J2Manits Bug overview">
@@ -10,19 +10,55 @@
                    size="30"
                    label="Project ID:"
                    description="Please enter a id of a project"/>
+        </fieldset>
+        <fieldset name="reportoptions" label="Options for fields">
+            <field name="fo_name"
+                   type="list"
+                   default="1"
+                   label="Name input"
+                   description="Does a name needs to be supplied upon issue submission">
+                <option value="0">Optional</option>
+                <option value="1">Mandatory</option>
+            </field>
+            <field name="fo_nameedit"
+                   type="radio"
+                   default="1"
+                   label="Name editable"
+                   description="Can user change name if pre-supplied based on logged in user">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </field>
+            <field type="spacer" name="myspacer" hr="true" />
+            <field name="fo_email"
+                   type="list"
+                   default="1"
+                   label="E-mail input"
+                   description="Does an email address need to be supplied upon issue submission">
+                <option value="0">Optional</option>
+                <option value="1">Mandatory</option>
+            </field>
+            <field name="fo_emailedit"
+                   type="radio"
+                   default="1"
+                   label="E-mail editable"
+                   description="Can user change email if pre-supplied based on logged in user">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </field>
+        </fieldset>
+        <fieldset name="credentials" label="Alternative mantis credentials">
             <field type="text"
                    name="username"
                    autocomplete="off"
                    size="30"
                    default=""
-                   label="Mantis Username:"
+                   label="Username:"
                    description="Please enter the required username"/>
             <field type="password"
                    name="password"
                    autocomplete="off"
                    size="30"
-                   default=""
-                   label="Mantis Password:"
+                   default="" label="Password:"
                    description="Please enter the required password"/>
         </fieldset>
     </fields>
