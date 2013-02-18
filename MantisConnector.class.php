@@ -110,7 +110,7 @@ class MantisConnector{
 				foreach( $project->subprojects as $p ){
 					$p->name = $project->name . " >> " . $p->name;
 					$p->parrentId = $project->id;
-					$this->settings->addMantisProjectId($p->id);
+					// $this->settings->addMantisProjectId($p->id); // why change it?
 					array_push($getArray, $p );
 				}
 			}
@@ -177,7 +177,27 @@ class MantisConnector{
         }
         return $getBug;
     }
-    
+
+	/**
+	 * set a Bug by hi Id
+	 * @param $bugID
+	 * @param $bug
+	 * @return bool
+	 */
+	public function setBug($bugID,$bug){
+		require_once( JPATH_COMPONENT.DS.'soa_objects'.DS.'project_data.php');
+		if(empty($bugID)){
+			return;
+		}
+		$client = new soapclient($this->settings->getWsdlUrl());
+		try{
+			$setBug = $client->mc_issue_update($this->settings->getMantisUser(),$this->settings->getMantisPassword(), $bugID, $bug);
+		}catch (Exception $e){
+			return false;
+		}
+		return true;
+	}
+
 	/**
 	* Add bug report to mantis using webservice.
 	* @param object Class with bug report data inside.
