@@ -89,10 +89,6 @@ class JoomlaMantisParameter {
 		if ($app->isSite()) {
 			// when on 'site' merge menu and 'component'
 			$params = $app->getParams('com_j2mantis');
-			$this->mantisFo_name 	 	= $params->get('fo_name', 0);
-			$this->mantisFo_nameedit 	= $params->get('fo_nameedit', 1);
-			$this->mantisFo_email 		= $params->get('fo_email', 0	);
-			$this->mantisFo_emailedit 	= $params->get('fo_emailedit', 1);
 		} else {
 			$params = &JComponentHelper::getParams('com_j2mantis');
 		}
@@ -104,7 +100,7 @@ class JoomlaMantisParameter {
 		$this->mantisProjectId = $this->mantisProjectIds[0];
 		$this->key = $params->get('key');
 		$this->mantisProjectName = $name;
-
+		$this->mantisCaption = $params->get('caption');
 	}
 
 	/**
@@ -165,22 +161,6 @@ class JoomlaMantisParameter {
   public function getMantisCaption() {
 	return $this->mantisCaption;
   }
-
-	public function getmantisFo_name() {
-		return $this->mantisFo_name;
-	}
-
-	public function getmantisFo_nameedit() {
-		return $this->mantisFo_nameedit;
-	}
-
-	public function getmantisFo_email() {
-		return $this->mantisFo_email;
-	}
-
-	public function getmantisFo_emailedit() {
-		return $this->mantisFo_emailedit;
-	}
 
   /**
    * @see $wsdlUrl
