@@ -54,8 +54,7 @@ class JoomlaMantisController extends JController
 		$additional_information = JRequest::getString('name','') . " ( " . JRequest::getString('email','') . " )";
 		$priority = JRequest::getInt('priority', 30);
 		$projectId = JRequest::getInt('project',0);
-        $due_date = $app->input->get('due_date', null, 'STR' );
-
+		
 		if(count($errors) > 0){
 			$_POST['errors'] = $errors;
 			parent::display();
@@ -65,7 +64,6 @@ class JoomlaMantisController extends JController
 		require_once( JPATH_COMPONENT.DS.'soa_objects'.DS.'bug_data.php');
 		$newBug = new BugData();
 		$newBug->summary = $summary;
-		$newBug->due_date = $due_date;
 		$newBug->category = $category;
 		$newBug->description = $description;
 		$newBug->additional_information = $additional_information;
@@ -149,10 +147,7 @@ class JoomlaMantisController extends JController
 			echo "kein BugId gegeben";
 		}
 		$text = '';
-		$name = JRequest::getString('name');
-		if ( !empty( $name ) ) {
-			$text .= $name . ":\n";
-		}
+		$text .= JRequest::getString('name') . ":\n";
 		$text .= JRequest::getString('text');
 		
 		require_once( JPATH_COMPONENT.DS.'JoomlaMantisParameter.class.php');
@@ -166,38 +161,7 @@ class JoomlaMantisController extends JController
 			echo "Es ist ein Fehler aufgetreten";
 		}
 	}
-
-	/**
-	 * add a Note to a Bug from the Request to Mantis while using SOA
-	 *
-	 */
-	function editBug(){
-		$app = JFactory::getApplication('site');
-		require_once( JPATH_COMPONENT.DS.'JoomlaMantisParameter.class.php');
-		$settings = new JoomlaMantisParameter();
-		require_once( JPATH_COMPONENT.DS.'MantisConnector.class.php');
-		$Mantis = new MantisConnector($settings);
-
-		$bugid = $app->input->get('bugid', null, 'INT' );
-		if( empty($bugid) || $bugid == 0){
-			echo "no associated bugid";
-		}
-		$bug = $Mantis->getBug( $bugid );
-		$due_date = $app->input->get('due_date', null, 'STR' );
-		if( empty($due_date) || is_null($due_date)){
-			$due_date = "";
-		}
-		// due_date in format Y-m-d, 'm-d-y H:i T'??, what dateformat is configured to be used ?
-		$bug->due_date = $due_date ;
-		if( $Mantis->setBug($bugid,$bug)){
-			$EncodedBugId = base64_encode($Mantis->encode((string)$bugid));
-			$Itemid=JRequest::getInt('Itemid',0);
-			$this->setRedirect('index.php?option=com_j2mantis&view=showbug&bugid='.$EncodedBugId.'&Itemid='.$Itemid);
-		}else{
-			echo "Oops someething went wrong contacting mantis";
-		}
-	}
-
+	
     /**
      * Method to display the view
      *
