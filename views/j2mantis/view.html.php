@@ -80,11 +80,23 @@ class J2MantisViewj2mantis extends JView
 
 		$bugs = $Mantis->getAllBugsOfAllProjects();
 		$bugs = $this->array_sort($bugs, 'last_updated');
-    	$caption = JText::_('Report Overview');
-        $this->assignRef( 'caption', $caption );
-        $this->assignRef( 'bugs', $bugs);
-        $this->assignRef( 'mantis', $Mantis);
-        
+        $this->bugs = $bugs;
+        $this->mantis=$Mantis;
+
+		$this->user         = JFactory::getUser();
+		$this->defCaption	= $settings->getMantisCaption();
+		$this->fo_name		= $settings->getmantisFo_name();
+		$this->fo_nameedit 	= $settings->getmantisFo_nameedit();
+		$this->fo_email 	= $settings->getmantisFo_email();
+		$this->fo_emailedit = $settings->getmantisFo_emailedit();
+		if( $this->user->id==0 ){
+			// no logged in user, then edit cannot be false if field required
+			if ($this->fo_name  == 1 ) $this->fo_nameedit  = 1;
+			if ($this->fo_email == 1 ) $this->fo_emailedit = 1;
+		}
+
+		$this->caption = ($this->defCaption) ? $this->defCaption : JText::_('Report Overview');
+
         parent::display($tpl);
     }
 }
