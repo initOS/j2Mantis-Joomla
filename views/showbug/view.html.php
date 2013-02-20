@@ -36,7 +36,11 @@ class J2MantisViewshowbug extends JView
 		$bug = $Mantis->getBug( $bugid );
         $this->caption=$caption;
         $this->bug=$bug;
-		$this->due_date = date( "Y-m-d",strtotime($bug->due_date));
+		if ($bug->due_date ) {
+			$this->due_date = date( "Y-m-d",strtotime($bug->due_date));
+		} else {
+			$bug->due_date = null;
+		}
 /*
  * config_inc.php
  * $g_due_date_update_threshold = MANAGER;
