@@ -29,8 +29,14 @@ class J2MantisViewj2mantis extends JView
 			$bb=$b->$on->id;
 		} elseif ( in_array( $on, array( 'last_updated', 'due_date', 'summary', 'date_submitted', 'additional_information', 'description' ) ) ) {
 			// add configuration item to make searching case sensative
-			$aa=strtolower($a->$on);
-			$bb=strtolower($b->$on);
+			if ( $this->sort_case ) {
+				$aa=strtolower($a->$on);
+				$bb=strtolower($b->$on);
+			}
+			else {
+				$aa=$a->$on;
+				$bb=$b->$on;
+			}
 		} else { // 'id', 'sticky'
 			$aa=$a->$on;
 			$bb=$b->$on;
@@ -45,15 +51,16 @@ class J2MantisViewj2mantis extends JView
 	 * Sort the issue list
 	 *
 	 * @param $array
-	 * @param string $on : field from IssueData to sort on, 'NONE' implies no sorting
-	 * @param int $order
+	 * @param string $sort_on : field from IssueData to sort on, 'NONE' implies no sorting
+	 * @param int $sort_order
 	 * @return mixed
 	 */
-	function issue_array_sort($array, $on='last_updated', $order=1)
+	function issue_array_sort($array, $sort_on='last_updated', $sort_order=1, $sort_case=0 )
 	{
-		$this->sort_on=$on;
-		$this->sort_order=$order;
-		if ( (count($array) > 0) && ( $on != 'NONE' ) ) {
+		$this->sort_on=$sort_on;
+		$this->sort_order=$sort_order;
+		$this->sort_case=$sort_case;
+		if ( (count($array) > 0) && ( $sort_on != 'NONE' ) ) {
 			uasort($array, array($this, 'issue_compare'));
 		}
 		return $array;
@@ -61,7 +68,14 @@ class J2MantisViewj2mantis extends JView
 
     function display($tpl = null)
     {
-		$params = &JComponentHelper::getParams( 'com_j2mantis' );
+		$app = &JFactory::getApplication();
+		if ($app->isSite()) {
+			// when on 'site' merge menu and 'component'
+			$params = $app->getParams('com_j2mantis');
+		} else {
+			$params = &JComponentHelper::getParams('com_j2mantis');
+		}
+
 		$overview = $params->get('overview');
 		if(empty($overview)){
 			echo "no overview allowed";
@@ -81,7 +95,7 @@ class J2MantisViewj2mantis extends JView
 		}
 
 		$bugs = $Mantis->getAllBugsOfAllProjects();
-		$bugs = $this->issue_array_sort($bugs, 'summary', 1);
+		$bugs = $this->issue_array_sort($bugs,$params->get('sort_on'), $params->get('sort_order'), $params->get('sort_case'));
         $this->bugs = $bugs;
         $this->mantis=$Mantis;
 
