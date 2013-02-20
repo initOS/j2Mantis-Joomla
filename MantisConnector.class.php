@@ -36,11 +36,6 @@ class MantisConnector{
 		}
 		return $result;
 	}
-
-
-    
-
-    
     
     protected function setStatusToReOpen($mantisId){
         $client = new soapclient($this->setting->getWsdlUrl());
@@ -77,7 +72,17 @@ class MantisConnector{
 		}
         return $getArray;
     }
- 
+
+	public function getFiltersOfProject( $id ){
+		try{
+			$client = new soapclient($this->settings->getWsdlUrl());
+		}catch (Exception $e){
+			return false;
+		}
+		require_once( JPATH_COMPONENT_SITE.DS.'soa_objects'.DS.'filter_data.php');
+		$getArray[$id] = $client->mc_filter_get($this->settings->getMantisUser(),$this->settings->getMantisPassword(), $id );
+		return $getArray;
+	}
 
     /**
      * get all definition of projects define in the settings
@@ -147,13 +152,27 @@ class MantisConnector{
 		$getBugArray = array();	
 		foreach($this->settings->getMantisProjectIds() as $id){   	
 			try{
-				$getBugArray =  array_merge($getBugArray, $client->mc_project_get_issues($this->settings->getMantisUser(),$this->settings->getMantisPassword(), $id ));
+				//mc_filter_get_issuesRequest
+				$page_len=50; // range 1 ..
+				for ($page = 1; true; $page++) {
+					$getBugArrayPage = $client->mc_project_get_issues($this->settings->getMantisUser(), $this->settings->getMantisPassword(), $id, $page, $page_len);
+					if (sizeof($getBugArrayPage)) {
+						$getBugArray = array_merge($getBugArray, $getBugArrayPage);
+						if (sizeof($getBugArrayPage)<$page_len) {
+							break;
+						}
+					} else {
+						break;
+					}
+				}
 			}catch (Exception $e){
 		    	//return false;
 				//var_dump($e);
 		    }
 		}
-
+		// TODO due_date is NOT available in SOAP list query.., only part of "IssueData", requiring additional call on details for every listed item
+		/* here we could now loop all bug items to get "duedate" and or other items from "Issuedata"
+		*/
         return $getBugArray;
     }
     
