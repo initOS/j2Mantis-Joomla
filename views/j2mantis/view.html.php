@@ -27,7 +27,7 @@ class J2MantisViewj2mantis extends JView
 		if ( in_array( $on, array('priority', 'severity', 'status', 'project', 'handler', 'reporter', 'resolution' ) ) ) {
 			$aa=$a->$on->id;
 			$bb=$b->$on->id;
-		} elseif ( in_array( $on, array( 'summary', 'date_submitted', 'additional_information', 'description' ) ) ) {
+		} elseif ( in_array( $on, array( 'last_updated', 'due_date', 'summary', 'date_submitted', 'additional_information', 'description' ) ) ) {
 			// add configuration item to make searching case sensative
 			$aa=strtolower($a->$on);
 			$bb=strtolower($b->$on);
