@@ -73,6 +73,10 @@ class MantisConnector{
         return $getArray;
     }
 
+	/**
+	 * @param $id
+	 * @return bool
+	 */
 	public function getFiltersOfProject( $id ){
 		try{
 			$client = new soapclient($this->settings->getWsdlUrl());
@@ -170,9 +174,12 @@ class MantisConnector{
 				//var_dump($e);
 		    }
 		}
-		// TODO due_date is NOT available in SOAP list query.., only part of "IssueData", requiring additional call on details for every listed item
-		/* here we could now loop all bug items to get "duedate" and or other items from "Issuedata"
-		*/
+		/* TODO due_date is NOT available in SOAP list query as mantis 1.2.14 .., only part of "IssueData", requiring additional call on details for every listed item
+		 * or patch mantis (http://www.mantisbt.org/bugs/view.php?id=15522)
+		 *   mantisbt/api/soap/mc_issue_api.php
+		 *   at LINE 1355  			function mci_issue_data_as_array( $p_issue_data, $p_user_id, $p_lang )
+		 *   add before return: 	$t_issue['due_date'] = SoapObjectsFactory::newDateTimeVar( $p_issue_data->due_date ) ;
+		 */
         return $getBugArray;
     }
     
