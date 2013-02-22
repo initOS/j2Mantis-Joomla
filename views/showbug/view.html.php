@@ -10,7 +10,9 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
  
 jimport( 'joomla.application.component.view');
- 
+
+require_once( JPATH_COMPONENT_SITE.DS.'Helper.class.php');
+
 /**
  * HTML View class for the J2Mantis Component
  *
@@ -49,6 +51,18 @@ class J2MantisViewshowbug extends JView
 // global option to support "due date" $support_duedate
 // only display if $support_duedate set
 //
+		// Get list of potential action holders
+		jimport('joomla.access.access');
+		$params = JFactory::getApplication()->getParams('com_j2mantis');
+		$action_acl = $params->get('access');
+		// TODO move to getAuthorisedViewLevelsUsers as generic helper
+		$action_user_ids = J2MantisHelper::getAuthorisedViewLevelsUsers($action_acl);
+		jimport('joomla.user.user');
+		foreach ($action_user_ids as $action_user_id) {
+			$this->actionholders[] = JFactory::getUser($action_user_id);
+		}
+
+//		TODO: get current actionholder
 
 		$this->user         = JFactory::getUser();
 		$this->defCaption	= $settings->getMantisCaption();

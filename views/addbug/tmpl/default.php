@@ -84,6 +84,16 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				echo 'value="' . $this->user->email . '"';
 			} ?> />
         <br/>
+		<?php if ( isset($this->actionholders) ) { ?>
+        	<label>Actionholder:</label>
+			<select name="actionholderId" STYLE="width: 200px">
+				<option value="-1">- none -</option>
+				<?php foreach($this->actionholders as $actionholder){ ?>
+				<option value="<?php echo $actionholder->id; ?>"><?php echo $actionholder->name; ?></option>
+				<?php } ?>
+			</select>
+		<br/>
+		<?php } ?>
         <label for="duedate"><?php echo JText::_('Due date');?></label>
 		<?php echo JHTML::_('calendar', $this->due_date, 'due_date', 'dd_id', '%Y-%m-%d', array('class' => 'inputbox', 'size' => '12', 'maxlength' => '10')); ?>
         <br/>        <br/>

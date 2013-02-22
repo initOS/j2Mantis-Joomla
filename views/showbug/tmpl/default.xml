@@ -11,6 +11,10 @@
                    label="Bug ID:"
                    description="Please enter a id of a bug" />
         </fieldset>
+        <fieldset name="actionsholder" label="View accesslevel for assignment">
+            <field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
+                   description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
+        </fieldset>
         <fieldset name="reportoptions" label="Options for fields">
             <field name="fo_name"
                    type="list"

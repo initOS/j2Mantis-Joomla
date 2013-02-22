@@ -10,6 +10,8 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
  
 jimport( 'joomla.application.component.view');
+
+require_once( JPATH_COMPONENT_SITE.DS.'Helper.class.php');
  
 /**
  * HTML View class for the J2Mantis Component
@@ -19,7 +21,7 @@ jimport( 'joomla.application.component.view');
  
 class J2MantisViewaddbug extends JView
 {
-    function display($tpl = null)
+	function display($tpl = null)
     {
 		require_once( JPATH_COMPONENT_SITE.DS.'JoomlaMantisParameter.class.php');
 		$settings = new JoomlaMantisParameter();
@@ -38,6 +40,15 @@ class J2MantisViewaddbug extends JView
 		$this->assignRef('project', $project );
 		$cat = $Mantis->getAllCategoriesOfProject();
         $this->assignRef( 'cat', $cat);
+
+		jimport('joomla.access.access');
+		$params = JFactory::getApplication()->getParams('com_j2mantis');
+		$action_acl = $params->get('access');
+		$action_user_ids = J2MantisHelper::getAuthorisedViewLevelsUsers($action_acl);
+		jimport('joomla.user.user');
+		foreach ($action_user_ids as $action_user_id) {
+			$this->actionholders[] = JFactory::getUser($action_user_id);
+		}
 
 		// assignRef no longer needed
 		$this->user         = JFactory::getUser();

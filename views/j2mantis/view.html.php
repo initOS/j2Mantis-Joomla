@@ -10,7 +10,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
  
 jimport( 'joomla.application.component.view');
- 
+
 /**
  * HTML View class for the J2Mantis Component
  *

@@ -74,7 +74,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 	<?php if ($this->bug->status->id < 80) { /* FIXME: check if closed */ ?>
     <br/>
-    <h2><?php echo JText::_('Estimated due date');?></h2>
+    <h2><?php echo JText::_('Action holder & due date');?></h2>
     <form method="post"
           action="?option=com_j2mantis&amp;task=editBug&amp;Itemid=<?php echo JRequest::getInt('Itemid', 0);?>"
           enctype="multipart/form-data">
@@ -84,6 +84,17 @@ defined('_JEXEC') or die('Restricted access'); ?>
         <br/>
         <input type="submit" value="<?php echo JText::_('submit');?>">
         <br/>
+		<?php if ( isset($this->actionholders) ) { ?>
+<!--		TODO: get default value -->
+        <label>Actionholder:</label>
+        <select name="actionholderId" STYLE="width: 200px">
+            <option value="-1">- none -</option>
+			<?php foreach($this->actionholders as $actionholder){ ?>
+            <option value="<?php echo $actionholder->id; ?>"><?php echo $actionholder->name; ?></option>
+			<?php } ?>
+        </select>
+        <br/>
+		<?php } ?>
     </form>
     <h2><?php echo JText::_('attach File');?></h2>
     <form method="post"
