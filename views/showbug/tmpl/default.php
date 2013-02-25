@@ -6,6 +6,37 @@ defined('_JEXEC') or die('Restricted access'); ?>
 <?php JHTML::stylesheet('j2mantis.css', 'components/com_j2mantis/assets/'); ?>
 <div id="j2Mantis">
     <!-- <a href="?option=com_j2mantis" style="float: right">zurück zur Übersicht</a> -->
+    <h2><?php echo JText::_('Action holder & due date');?></h2>
+    <form method="post"
+          action="?option=com_j2mantis&amp;task=editBug&amp;Itemid=<?php echo JRequest::getInt('Itemid', 0);?>"
+          enctype="multipart/form-data">
+        <input type="hidden" name="bugid" value="<?php echo $this->bug->id ?>"/>
+        <label for="duedate"><?php echo JText::_('Due date');?></label>
+		<?php echo JHTML::_('calendar', $this->due_date, 'due_date', 'dd_id', '%Y-%m-%d', array('class' => 'inputbox', 'size' => '12', 'maxlength' => '10')); ?>
+        <br/>
+		<?php if ( isset($this->actionholders) ) { ?>
+        <!--		TODO: get default value -->
+        <label>Actionholder:</label>
+
+        <select name="actionholderId" STYLE="width: 200px">
+            <option
+				<?php if ( $this->default_autionholderid ==-1 ) { ?>
+                    selected
+				<?php } ?>
+                    value="-1">- none -</option>
+			<?php foreach($this->actionholders as $actionholder){ ?>
+            <option
+				<?php if ( $this->default_autionholderid == $actionholder->id ) { ?>
+                    selected
+				<?php } ?>
+                    value="<?php echo $actionholder->id; ?>"><?php echo $actionholder->name; ?></option>
+			<?php } ?>
+        </select>
+        <br/>
+		<?php } ?>
+        <input style="float:right; background-color: lightsteelblue;" type="submit" value="<?php echo JText::_('submit');?>">
+        <br/>
+    </form>
     <h2><?php echo $this->caption; ?></h2>
     <table id="mt_overview">
         <tr class="head">
@@ -29,14 +60,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
 				<?php echo nl2br($this->bug->description) ?>
             </td>
         </tr>
-		<?php if (!empty($this->bug->additional_information)) {
-		echo '
-<tr>
-	<td colspan="3">' .
-			nl2br($this->bug->additional_information) . '
-	</td>
-</tr>';
-	} ?>
+		<?php if (!empty($this->additional_info_readonly)) {?>
+			<tr>
+				<td colspan="3">
+					<?php echo $this->additional_info_readonly;nl2br($this->additional_info_readonly); ?>
+				</td>
+			</tr>
+		<?php }; ?>
 		<?php if (count($this->bug->attachments) > 0): ?>
         <tr>
             <td><?php echo JText::_('File');?>:</td>
@@ -50,6 +80,15 @@ defined('_JEXEC') or die('Restricted access'); ?>
         </tr>
 		<?php endif; ?>
     </table>
+    <h2><?php echo JText::_('attach File');?></h2>
+    <form method="post"
+          action="?option=com_j2mantis&amp;task=addFile&amp;Itemid=<?php echo JRequest::getInt('Itemid', 0);?>"
+          enctype="multipart/form-data">
+        <input type="hidden" name="bugid" value="<?php echo $this->bug->id ?>"/>
+        <label for="name">File:</label>
+        <input type="file" name="name" size="30" id="name" maxlength="100000"/><br/>
+        <input  style="float:right; background-color: lightsteelblue;" type="submit" value="<?php echo JText::_('submit');?>">
+    </form>
 	<?php //var_dump($this->bug); ?>
 	<?php
 	if (is_array($this->bug->notes) && sizeof($this->bug->notes) > 0) {
@@ -74,39 +113,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
 
 	<?php if ($this->bug->status->id < 80) { /* FIXME: check if closed */ ?>
     <br/>
-    <h2><?php echo JText::_('Action holder & due date');?></h2>
-    <form method="post"
-          action="?option=com_j2mantis&amp;task=editBug&amp;Itemid=<?php echo JRequest::getInt('Itemid', 0);?>"
-          enctype="multipart/form-data">
-        <input type="hidden" name="bugid" value="<?php echo $this->bug->id ?>"/>
-        <label for="duedate"><?php echo JText::_('Due date');?></label>
-		<?php echo JHTML::_('calendar', $this->due_date, 'due_date', 'dd_id', '%Y-%m-%d', array('class' => 'inputbox', 'size' => '12', 'maxlength' => '10')); ?>
-        <br/>
-        <input type="submit" value="<?php echo JText::_('submit');?>">
-        <br/>
-		<?php if ( isset($this->actionholders) ) { ?>
-<!--		TODO: get default value -->
-        <label>Actionholder:</label>
-        <select name="actionholderId" STYLE="width: 200px">
-            <option value="-1">- none -</option>
-			<?php foreach($this->actionholders as $actionholder){ ?>
-            <option value="<?php echo $actionholder->id; ?>"><?php echo $actionholder->name; ?></option>
-			<?php } ?>
-        </select>
-        <br/>
-		<?php } ?>
-    </form>
-    <h2><?php echo JText::_('attach File');?></h2>
-    <form method="post"
-          action="?option=com_j2mantis&amp;task=addFile&amp;Itemid=<?php echo JRequest::getInt('Itemid', 0);?>"
-          enctype="multipart/form-data">
-        <input type="hidden" name="bugid" value="<?php echo $this->bug->id ?>"/>
-        <label for="name">File:</label>
-        <input type="file" name="name" size="30" id="name" maxlength="100000"/><br/>
-        <input type="submit" value="<?php echo JText::_('submit');?>">
-    </form>
-
-    <br/>
     <h2><?php echo JText::_('add Note');?></h2>
     <form method="post"
           action="?option=com_j2mantis&amp;task=addNote&amp;Itemid=<?php echo JRequest::getInt('Itemid', 0);?>">
@@ -119,7 +125,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
         <br/>
         <label for="text"><?php echo JText::_('Note');?></label>
         <textarea rows="5" cols="50" name="text" id="text"></textarea>
-        <input type="submit" value="<?php echo JText::_('submit');?>">
+        <input  style="float:right; background-color: lightsteelblue; clear:both" type="submit" value="<?php echo JText::_('submit');?>">
     </form>
 	<?php } ?>
     <br/>
