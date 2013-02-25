@@ -10,6 +10,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
  
 jimport( 'joomla.application.component.view');
+require_once( JPATH_COMPONENT_SITE.DS.'Helper.class.php');
 
 /**
  * HTML View class for the J2Mantis Component
@@ -96,7 +97,16 @@ class J2MantisViewj2mantis extends JView
 
 		$bugs = $Mantis->getAllBugsOfAllProjects();
 		$bugs = $this->issue_array_sort($bugs,$params->get('sort_on'), $params->get('sort_order'), $params->get('sort_case'));
-        $this->bugs = $bugs;
+		$hasactionholders=false;
+		$hasduedate=false;
+		foreach( $bugs as $bug ) {
+			$bug->j2m=J2MantisHelper::getJ2M_Status($bug);
+			$hasactionholders=($hasactionholders)||($bug->j2m[actionholder]);
+			$hasduedate=($hasduedate)||($bug->due_date);
+		}
+		$this->hasactionholders=$hasactionholders;
+		$this->hasduedate=$hasduedate;
+		$this->bugs = $bugs;
         $this->mantis=$Mantis;
 
 		$this->user         = JFactory::getUser();

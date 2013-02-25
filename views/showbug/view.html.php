@@ -36,8 +36,9 @@ class J2MantisViewshowbug extends JView
 		}
 		//var_dump( $bugid );
 		$bug = $Mantis->getBug( $bugid );
-        $this->caption=$caption;
+        $this->caption=JText::_("problem description");
         $this->bug=$bug;
+		$this->additional_info_readonly=J2MantisHelper::FilterJ2M_Status($bug);
 		if ($bug->due_date ) {
 			$this->due_date = date( "Y-m-d",strtotime($bug->due_date));
 		} else {
@@ -55,14 +56,14 @@ class J2MantisViewshowbug extends JView
 		jimport('joomla.access.access');
 		$params = JFactory::getApplication()->getParams('com_j2mantis');
 		$action_acl = $params->get('access');
-		// TODO move to getAuthorisedViewLevelsUsers as generic helper
 		$action_user_ids = J2MantisHelper::getAuthorisedViewLevelsUsers($action_acl);
 		jimport('joomla.user.user');
 		foreach ($action_user_ids as $action_user_id) {
 			$this->actionholders[] = JFactory::getUser($action_user_id);
 		}
 
-//		TODO: get current actionholder
+		$j2m=J2MantisHelper::getJ2M_Status($bug);
+		$this->default_autionholderid=$j2m['actionholderid'];
 
 		$this->user         = JFactory::getUser();
 		$this->defCaption	= $settings->getMantisCaption();
@@ -75,7 +76,6 @@ class J2MantisViewshowbug extends JView
 			if ($this->fo_name  == 1 ) $this->fo_nameedit  = 1;
 			if ($this->fo_email == 1 ) $this->fo_emailedit = 1;
 		}
-
 		$this->caption = ($this->defCaption) ? $this->defCaption : JText::_('Problem description');
 
         parent::display($tpl);

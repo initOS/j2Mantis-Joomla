@@ -12,7 +12,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 // import controller
 jimport('joomla.application.component.controller');
 
-
+require_once( JPATH_COMPONENT_SITE.DS.'Helper.class.php');
 
 /**
  * Main Controller for J2Mantis Component
@@ -55,13 +55,14 @@ class JoomlaMantisController extends JController
 		$priority = JRequest::getInt('priority', 30);
 		$projectId = JRequest::getInt('project',0);
         $due_date = $app->input->get('due_date', null, 'STR' );
+		$ActionholderId = $app->input->get('actionholderId', null, 'STR' );
 
 		if(count($errors) > 0){
 			$_POST['errors'] = $errors;
 			parent::display();
 			return;
 		}
-		
+
 		require_once( JPATH_COMPONENT.DS.'soa_objects'.DS.'bug_data.php');
 		$newBug = new BugData();
 		$newBug->summary = $summary;
@@ -69,6 +70,16 @@ class JoomlaMantisController extends JController
 		$newBug->category = $category;
 		$newBug->description = $description;
 		$newBug->additional_information = $additional_information;
+		if ( ( $ActionholderId > 0 ) || ( is_null($ActionholderId))) {
+			$Actionholder=JFactory::getUser($ActionholderId);
+			$j2m['actionholderid']=$ActionholderId;
+			$j2m['actionholder']=$Actionholder->name;
+			$user =& JFactory::getUser();
+			$j2m['submitterid']=$user->get( 'id' );
+			$j2m['submitter']=$user->name;
+			$j2m['dts']=strtotime("now");
+			J2MantisHelper::setJ2M_Status($newBug, $j2m);
+		};
 		require_once( JPATH_COMPONENT.DS.'soa_objects'.DS.'project_data.php');
 		$pr = new ProjectData();
 		$pr->id = $projectId;
@@ -143,14 +154,15 @@ class JoomlaMantisController extends JController
 	 * add a Note to a Bug from the Request to Mantis while using SOA
 	 *
 	 */
-	function addNote(){
-		$bugid = JRequest::getInt('bugid', 0);
+	function addNote( $text="", $name="", $bugid=0){
+		if ($bugid == 0) {
+			$name = JRequest::getString('name');
+			$bugid = JRequest::getInt('bugid', 0);
+		}
 		if($bugid == 0){
 			echo "kein BugId gegeben";
 		}
-		$text = '';
-		$name = JRequest::getString('name');
-		if ( !empty( $name ) ) {
+		if ( ( $name > "" ) ) {
 			$text .= $name . ":\n";
 		}
 		$text .= JRequest::getString('text');
@@ -183,7 +195,28 @@ class JoomlaMantisController extends JController
 			echo "no associated bugid";
 		}
 		$bug = $Mantis->getBug( $bugid );
+
 		$due_date = $app->input->get('due_date', null, 'STR' );
+		$action_holder = $app->input->get('actionholderId', null, 'INT' );
+
+		$j2m=J2MantisHelper::getJ2M_Status($bug);
+		$old_action_holder=$j2m['actionholderid'];
+		if ( ! $old_action_holder ) {
+			$old_action_holder=-1;
+		}
+		if ( $action_holder != $old_action_holder ) {
+			$j2m=array();
+			$j2m['actionholderid']=$action_holder;
+			if ( $action_holder ) {
+				$j2m['actionholder']=JFactory::getUser($action_holder)->name;
+			}
+			$user =& JFactory::getUser();
+			$j2m['submitterid']=$user->get( 'id' );
+			$j2m['submitter']=$user->name;
+			$j2m['dts']=strtotime("now");
+			J2MantisHelper::setJ2M_Status($bug, $j2m);
+		};
+
 		if( empty($due_date) || is_null($due_date)){
 			$due_date = "";
 		}

@@ -113,7 +113,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
 		<?php if ($params->get('captcha')) {
 		plgSystemJCCReCaptcha::display();
 	} ?>
-        <input type="submit" value="<?php echo JText::_('Submit');?>"/>
+        <input style="float:right; background-color: lightsteelblue;" type="submit" value="<?php echo JText::_('Submit');?>"/>
     </form>
 	<?php if ((boolean)$params->get('overview')): ?>
     <br/>
