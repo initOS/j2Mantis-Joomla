@@ -4,6 +4,10 @@
         <message>Form to add/create new issue</message>
     </layout>
     <fields name="params">
+        <fieldset name="basic">
+            <field name="moduleclass_sfx" type="text" default="" label="Module Class Suffix"
+                   description="Suffix for individual css styling"/>
+        </fieldset>
         <fieldset name="basic" label="J2Manits Bug overview">
             <field type="text"
                    name="project"
@@ -18,7 +22,7 @@
         </fieldset>
         <fieldset name="actionsholder" label="View accesslevel for assignment">
             <field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
-                   description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
+                   description="JFIELD_ACCESS_DESC" class="inputbox" size="1"/>
         </fieldset>
         <fieldset name="reportoptions" label="Options for fields">
             <field name="fo_name"
@@ -37,7 +41,7 @@
                 <option value="1">Yes</option>
                 <option value="0">No</option>
             </field>
-            <field type="spacer" name="myspacer" hr="true" />
+            <field type="spacer" name="myspacer" hr="true"/>
             <field name="fo_email"
                    type="list"
                    default="1"

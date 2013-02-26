@@ -4,6 +4,10 @@
 		<message>Edit / show one seleceted Bug</message>
 	</layout>
     <fields name="params">
+        <fieldset name="basic">
+            <field name="moduleclass_sfx" type="text" default="" label="Module Class Suffix"
+                   description="Suffix for individual css styling"/>
+        </fieldset>
         <fieldset name="basic" label="J2Manits Bug overview">
             <field type="text"
                    name="bug_id"

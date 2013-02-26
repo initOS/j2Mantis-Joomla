@@ -108,6 +108,7 @@ class J2MantisViewj2mantis extends JView
 		$this->hasduedate=$hasduedate;
 		$this->bugs = $bugs;
         $this->mantis=$Mantis;
+		$this->moduleclass_sfx=$params->get('moduleclass_sfx',"");
 
 		$this->user         = JFactory::getUser();
 		$this->defCaption	= $settings->getMantisCaption();

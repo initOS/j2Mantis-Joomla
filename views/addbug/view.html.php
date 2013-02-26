@@ -57,6 +57,7 @@ class J2MantisViewaddbug extends JView
 		$this->fo_nameedit 	= $settings->getmantisFo_nameedit();
 		$this->fo_email 	= $settings->getmantisFo_email();
 		$this->fo_emailedit = $settings->getmantisFo_emailedit();
+		$this->moduleclass_sfx=$params->get('moduleclass_sfx',"");
 		if( $this->user->id==0 ){
 			// no logged in user, then edit cannot be false if field required
 			if ($this->fo_name  == 1 ) $this->fo_nameedit  = 1;
