@@ -95,15 +95,45 @@ class J2MantisViewj2mantis extends JView
 			}
 		}
 
+		$action_acl = $params->get('access');
+		$action_user_ids = J2MantisHelper::getAuthorisedViewLevelsUsers($action_acl);
+		jimport('joomla.user.user');
+		foreach ($action_user_ids as $action_user_id) {
+			$this->actionholders[] = JFactory::getUser($action_user_id);
+		}
+
 		$bugs = $Mantis->getAllBugsOfAllProjects();
 		$bugs = $this->issue_array_sort($bugs,$params->get('sort_on'), $params->get('sort_order'), $params->get('sort_case'));
 		$hasactionholders=false;
 		$hasduedate=false;
-		foreach( $bugs as $bug ) {
-			$bug->j2m=J2MantisHelper::getJ2M_Status($bug);
-			$hasactionholders=($hasactionholders)||($bug->j2m[actionholder]);
-			$hasduedate=($hasduedate)||($bug->due_date);
+
+		$filter_states = $params->get('filter_states');
+		$allowed_states = $app->input->get('allowed_state', null, 'ARRAY' );
+		if ( (! is_null($filter_states)) && (is_null($allowed_states)) ) {
+			$allowed_states=$filter_states;
 		}
+
+		$allowed_users 	= $app->input->get('allowed_users', null, 'ARRAY' );
+		for( $idx=count($bugs)-1; $idx>=0; $idx--) {
+		    $bug=$bugs[$idx];
+			$bug->j2m=J2MantisHelper::getJ2M_Status($bug);
+			$actionholderid=$bug->j2m['actionholderid'];
+			if (is_null($actionholderid)) {
+				$actionholderid=0;
+			}
+			if ((in_array($bug->status->id,$allowed_states) || (is_null($allowed_states))) &&
+				((in_array($actionholderid,$allowed_users)) || (is_null($allowed_users)) )){
+				$hasactionholders	=($hasactionholders)||($bug->j2m[actionholder]);
+				$hasduedate			=($hasduedate)		||($bug->due_date);
+			}
+			else {
+				// remove filtered items
+				unset($bugs[$idx]);
+			};
+		}
+		$this->allowed_states=$allowed_states;
+		$this->allowed_users=$allowed_users;
+
 		$this->hasactionholders=$hasactionholders;
 		$this->hasduedate=$hasduedate;
 		$this->bugs = $bugs;

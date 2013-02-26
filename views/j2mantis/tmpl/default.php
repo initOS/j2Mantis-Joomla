@@ -8,7 +8,7 @@ $timezone_offset = -date("H", strtotime("Y-m-d", time()))+1;
 $fmt_date_long = "Y/m/d H:i";
 $fmt_date_short = "d M";
 ?>
-<div class="item-list<?php echo $this->moduleclass_sfx ?>">
+<div class="item-list<?php echo $this->moduleclass_sfx ?>" xmlns="http://www.w3.org/1999/html">
     <h1><?php echo $this->caption; ?></h1>
     <table id="mt_overview">
         <thead>
@@ -87,4 +87,29 @@ $fmt_date_short = "d M";
     </table>
     </br>
     <a href="?option=com_j2mantis&amp;view=addbug&amp;Itemid=<?php echo JRequest::getInt('Itemid', 0);?>"><?php echo JText::_('Add new bug report');?></a>
+    </br>
+    </br>
+    <h3>Filter list..</h3>
+    <form method="post"
+          action="?option=com_j2mantis&amp;task=display&amp;Itemid=<?php echo JRequest::getInt('Itemid', 0);?>"
+          enctype="multipart/form-data">
+        <select name="allowed_state[]" multiple="multiple" STYLE="width: 200px; margin:0;">
+            <option <?php if ( in_array(10,$this->allowed_states) ) { echo "selected"; } ?>  value="10">new</option>
+            <option <?php if ( in_array(50,$this->allowed_states) ) { echo "selected"; } ?>  value="50">assigned</option>
+            <option <?php if ( in_array(80,$this->allowed_states) ) { echo "selected"; } ?>  value="80">resolved</option>
+            <option <?php if ( in_array(90,$this->allowed_states) ) { echo "selected"; } ?>  value="90">closed</option>
+            <option <?php if ( in_array(20,$this->allowed_states) ) { echo "selected"; } ?>  value="20">feedback</option>
+            <option <?php if ( in_array(30,$this->allowed_states) ) { echo "selected"; } ?>  value="30">acknowledged</option>
+            <option <?php if ( in_array(40,$this->allowed_states) ) { echo "selected"; } ?>  value="40">confirmed</option>
+        </select>
+        <select name="allowed_users[]" multiple="multiple" STYLE="width: 200px; margin:0;">
+            <option <?php if (( in_array(0,$this->allowed_users) ) || (is_null($this->allowed_users)) ) { echo "selected"; } ?> value=0>- no action holder -</option>
+			<?php foreach ($this->actionholders as $actionholder) { ?>
+            <option <?php if (( in_array($actionholder->id,$this->allowed_users) ) || (is_null($this->allowed_users))){ echo "selected"; } ?>
+                    value="<?php echo $actionholder->id; ?>"><?php echo $actionholder->name; ?></option>
+			<?php } ?>
+        </select>
+        <input style="background-color: lightsteelblue;" type="submit"
+               value="<?php echo JText::_('submit');?>">
+    </form>
 </div>
