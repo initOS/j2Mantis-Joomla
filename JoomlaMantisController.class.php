@@ -50,11 +50,24 @@ class JoomlaMantisController extends JController
 		
 		$summary = JRequest::getString('summary','');
 		$category = JRequest::getString('category','');
-		$description = JRequest::getString('description','');
-		$additional_information = JRequest::getString('name','') . " ( " . JRequest::getString('email','') . " )";
+		$description = $app->input->get('description', ' ', 'STR');
+		if ( $description == ""  ) {
+			$description=".";
+		}
+
+		if ( $app->input->get('email', null, 'STR' ) != ""  ) {
+			$additional_information =  " (" . $app->input->get('email', null, 'STR' ) . ")";
+		}
+		else {
+			$additional_information="";
+		}
+		$additional_information = $app->input->get('name', null, 'STR' ) . $additional_information;
 		$priority = JRequest::getInt('priority', 30);
 		$projectId = JRequest::getInt('project',0);
         $due_date = $app->input->get('due_date', null, 'STR' );
+		if ( $due_date == "" ) {
+			$due_date = null;
+		}
 		$ActionholderId = $app->input->get('actionholderId', null, 'STR' );
 
 		if(count($errors) > 0){
