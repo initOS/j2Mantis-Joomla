@@ -22,8 +22,7 @@ defined('_JEXEC') or die('Restricted access'); ?>
     }
     //]]>
 </script>
-
-<div id="j2Mantis" class="item-page">
+<div class="item-page<?php echo $this->moduleclass_sfx ?>" id="j2Mantis">
     <h2><?php echo $this->caption; ?></h2>
 
 	<?php if (!empty($_POST['errors'])): ?>
@@ -73,13 +72,13 @@ defined('_JEXEC') or die('Restricted access'); ?>
                class="required" <?php if (!empty($_POST['summary'])) echo 'value="' . $_POST['summary'] . '"' ?> />
         <br/>
         <label for="name"><?php echo JText::_('Name'); if ( $this->fo_name == 1 ) echo '*';?></label>
-        <input type="text" name="name" id="name" <?php if ( $this->fo_name == 1 ) echo 'class="required"'; if ( ! $this->fo_nameedit ) echo ' readonly'; ?>
+        <input type="text" name="name" id="name" style="width: 200px;"<?php if ( $this->fo_name == 1 ) echo 'class="required"'; if ( ! $this->fo_nameedit ) echo ' readonly'; ?>
 			<?php if (!empty($this->user->name)) {
 			echo 'value="' . $this->user->name . ' [' . $this->user->username . ']"';
 		} ?>  />
         <br/>
         <label for="email"><?php echo JText::_('E-Mail'); if ( $this->fo_email == 1 ) echo '*';?></label>
-        <input type="text" name="email" id="email" class="validate-email <?php if ( $this->fo_email == 1 ) echo 'required'; ?>" <?php if ( ! $this->fo_emailedit ) echo 'readonly'; ?> <?php
+        <input type="text" name="email" id="email" style="width: 200px;" class="validate-email <?php if ( $this->fo_email == 1 ) echo 'required'; ?>" <?php if ( ! $this->fo_emailedit ) echo 'readonly'; ?> <?php
 			if (!empty($this->user->email)) {
 				echo 'value="' . $this->user->email . '"';
 			} ?> />
@@ -110,9 +109,6 @@ defined('_JEXEC') or die('Restricted access'); ?>
                   rows="8"><?php if (!empty($_POST['description'])) echo $_POST['description'] ?></textarea>
         <br/>
 		<?php $params = &JComponentHelper::getParams('com_j2mantis'); ?>
-		<?php if ($params->get('captcha')) {
-		plgSystemJCCReCaptcha::display();
-	} ?>
         <input style="float:right; background-color: lightsteelblue;" type="submit" value="<?php echo JText::_('Submit');?>"/>
     </form>
 	<?php if ((boolean)$params->get('overview')): ?>
