@@ -229,6 +229,10 @@ class JoomlaMantisController extends JController
 			$j2m['dts']=strtotime("now");
 			J2MantisHelper::setJ2M_Status($bug, $j2m);
 		};
+		$action_status = $app->input->get('actionstatus', null, 'INT' );
+		if ( $action_status != $bug->status->id ) {
+			$bug->status->id = $action_status;
+		}
 
 		if( empty($due_date) || is_null($due_date)){
 			$due_date = "";

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="component" version="1.6.0" method="upgrade">
+<install type="component" version="2.5.0" method="upgrade">
     <name>J2Mantis</name>
     <!-- The following elements are optional and free of formatting constraints -->
-    <creationDate>13.03.2011</creationDate>
-    <author>Markus Schneider - InitOS GmbH &amp; Co. KG</author>
-    <authorEmail>markus.schneider@initos.com</authorEmail>
-    <authorUrl>http://www.initos.com</authorUrl>
+    <creationDate>01.03.2013</creationDate>
+    <author>M. C. Dings</author>
+    <authorEmail>marco@dings-its.com</authorEmail>
+    <authorUrl>http://www.dings-its.com</authorUrl>
     <copyright>This component is released under the GNU/GPL License</copyright>
     <license>GNU GPL</license>
     <!--  The version string is recorded in the components table -->
-    <version>0.5.0</version>
+    <version>0.5.1</version>
     <!-- The description is optional and defaults to the name -->
     <description>view and add Mantis Bugs, add file and notice. Support multi projects and subprojects</description>
 

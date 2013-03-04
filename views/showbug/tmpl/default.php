@@ -37,6 +37,20 @@ $fmt_date_short = "d M";
         </select>
         <br/>
 		<?php } ?>
+        <label>Actionstatus:</label>
+
+
+        <select name="actionstatus" default="<?php echo $this->bug->status->id ?>"  STYLE="width: 200px">
+            <option <?php $val=10; if ($val==$this->bug->status->id) { echo "selected ";} echo "value=\"".$val ?>">new</option>
+            <option <?php $val=50; if ($val==$this->bug->status->id) { echo "selected ";} echo "value=\"".$val ?>">assigned</option>
+            <option <?php $val=80; if ($val==$this->bug->status->id) { echo "selected ";} echo "value=\"".$val ?>">resolved</option>
+            <option <?php $val=90; if ($val==$this->bug->status->id) { echo "selected ";} echo "value=\"".$val ?>">closed</option>
+            <option <?php $val=20; if ($val==$this->bug->status->id) { echo "selected ";} echo "value=\"".$val ?>">feedback</option>
+            <option <?php $val=30; if ($val==$this->bug->status->id) { echo "selected ";} echo "value=\"".$val ?>">acknowledged</option>
+            <option <?php $val=40; if ($val==$this->bug->status->id) { echo "selected ";} echo "value=\"".$val ?>">confirmed</option>
+		</select>
+        <br/>
+
         <input style="float:right; background-color: lightsteelblue;" type="submit"
                value="<?php echo JText::_('submit');?>">
         <br/>
