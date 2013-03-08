@@ -137,7 +137,7 @@ $fmt_date_short = "d M";
 			<?php } ?>
         </table>
 		<?php } ?>
-	<?php if ($this->bug->status->id < 80) { /* FIXME: check if closed */ ?>
+	<?php if ($this->bug->status->id < 90) { /* check if closed */ ?>
     <br/>
     <h2><?php echo JText::_('add Note');?></h2>
     <form method="post"
