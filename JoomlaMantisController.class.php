@@ -212,12 +212,10 @@ class JoomlaMantisController extends JController
 		$due_date = $app->input->get('due_date', null, 'STR' );
 		$action_holder = $app->input->get('actionholderId', null, 'INT' );
 
+		$bugmodified=false;
 		$j2m=J2MantisHelper::getJ2M_Status($bug);
 		$old_action_holder=$j2m['actionholderid'];
-		if ( ! $old_action_holder ) {
-			$old_action_holder=-1;
-		}
-		if ( $action_holder != $old_action_holder ) {
+		if ( ( $action_holder >= 0 ) && ( $action_holder != $old_action_holder )) {
 			$j2m=array();
 			$j2m['actionholderid']=$action_holder;
 			if ( $action_holder ) {
@@ -228,23 +226,31 @@ class JoomlaMantisController extends JController
 			$j2m['submitter']=$user->name;
 			$j2m['dts']=strtotime("now");
 			J2MantisHelper::setJ2M_Status($bug, $j2m);
+			$bugmodified=true;
 		};
 		$action_status = $app->input->get('actionstatus', null, 'INT' );
 		if ( $action_status != $bug->status->id ) {
+			$bugmodified=true;
 			$bug->status->id = $action_status;
 		}
 
 		if( empty($due_date) || is_null($due_date)){
 			$due_date = "";
 		}
-		// due_date in format Y-m-d, 'm-d-y H:i T'??, what dateformat is configured to be used ?
-		$bug->due_date = $due_date ;
-		if( $Mantis->setBug($bugid,$bug)){
-			$EncodedBugId = base64_encode($Mantis->encode((string)$bugid));
-			$Itemid=JRequest::getInt('Itemid',0);
-			$this->setRedirect('index.php?option=com_j2mantis&view=showbug&bugid='.$EncodedBugId.'&Itemid='.$Itemid);
-		}else{
-			echo "Oops someething went wrong contacting mantis";
+		if ( $bug->due_date != $due_date ) {
+			// due_date in format Y-m-d, 'm-d-y H:i T'??, what dateformat is configured to be used ?
+			$bug->due_date = $due_date ;
+			$bugmodified=true;
+		}
+
+		if ($bugmodified) {
+			if ( $Mantis->setBug($bugid,$bug)) {
+				$EncodedBugId = base64_encode($Mantis->encode((string)$bugid));
+				$Itemid=JRequest::getInt('Itemid',0);
+				$this->setRedirect('index.php?option=com_j2mantis&view=showbug&bugid='.$EncodedBugId.'&Itemid='.$Itemid);
+			}else{
+				echo "Oops someething went wrong contacting mantis";
+			}
 		}
 	}
 
