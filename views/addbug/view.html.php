@@ -12,7 +12,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.view');
 
 require_once( JPATH_COMPONENT_SITE.DS.'Helper.class.php');
- 
+
 /**
  * HTML View class for the J2Mantis Component
  *

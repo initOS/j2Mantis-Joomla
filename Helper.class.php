@@ -24,7 +24,7 @@ class J2MantisHelper {
 		for($idx=0; $idx<$max_matches; $idx++)
 		{
 			if ( $matches[1][$idx] == '1.0' ) {
-				$j2m=array_merge((array)json_decode($matches[2][$idx]),$j2m);
+				$j2m=array_merge($j2m,json_decode($matches[2][$idx],true));
 			}
 		};
 		return $j2m;
