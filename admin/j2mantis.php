@@ -51,6 +51,7 @@ $page = simplexml_load_file($settings->getWsdlUrl());
 if($page && $page->attributes()->targetNamespace == 'http://futureware.biz/mantisconnect'){
 	require_once( JPATH_COMPONENT_SITE.DS.'MantisConnector.class.php');
 	echo "Connection: <span style='color: #090; font-weight: bold;'>works</span><br/>";
+	//Getting projects
 	$Mantis = new MantisConnector($settings);
 	$projects = $Mantis->getAllProjects(true,true);
 	if($projects){
@@ -59,6 +60,16 @@ if($page && $page->attributes()->targetNamespace == 'http://futureware.biz/manti
 		foreach($projects as $id => $p){
 			echo "- ". $p . " ( ".$id." )<br/>";
 		}
+//		// Getting filters
+//		$mc_filters = $Mantis->getFiltersOfProject( 13 );
+//		$p_serialized_filter = $mc_filters[13][2]->filter_string;
+//		$t_setting_arr = explode( '#', $p_serialized_filter, 2 );
+//		$t_filter_array = array();
+//		if( isset( $t_setting_arr[1] ) ) {
+//			$t_filter_array = unserialize( $t_setting_arr[1] );
+//		} else {
+//			return false;
+//		}
 	}else{
 		echo "Loggin: <span style='color: #900; font-weight: bold;'>dont work</span><br/>";
 	}

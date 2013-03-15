@@ -1,7 +1,17 @@
 @CHARSET "UTF-8";
 
-#j2Mantis label{ width: 100px; float: left; margin-bottom: 3px; }
-#j2Mantis input, textarea, select{ float: left; margin-left: 120px; margin-bottom: 3px; }
+#j2Mantis label {
+    width: 120px;
+    float: left;
+    margin-bottom: 3px;
+}
+
+#j2Mantis input, textarea, select {
+    float: left;
+    margin-left: 60px;
+    margin-bottom: 3px;
+}
+
 #j2Mantis br{ clear: both; }
 #j2Mantis h2{margin-top: 25px; margin-bottom: 15px; }
 #j2Mantis label.invalid{ color: red !important; }
@@ -38,4 +48,8 @@
 
 #mt_overview{
 	width: 100%;
+}
+
+#j2Mantis #summary {
+    width: 400px;
 }

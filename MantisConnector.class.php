@@ -36,11 +36,6 @@ class MantisConnector{
 		}
 		return $result;
 	}
-
-
-    
-
-    
     
     protected function setStatusToReOpen($mantisId){
         $client = new soapclient($this->setting->getWsdlUrl());
@@ -77,7 +72,21 @@ class MantisConnector{
 		}
         return $getArray;
     }
- 
+
+	/**
+	 * @param $id
+	 * @return bool
+	 */
+	public function getFiltersOfProject( $id ){
+		try{
+			$client = new soapclient($this->settings->getWsdlUrl());
+		}catch (Exception $e){
+			return false;
+		}
+		require_once( JPATH_COMPONENT_SITE.DS.'soa_objects'.DS.'filter_data.php');
+		$getArray[$id] = $client->mc_filter_get($this->settings->getMantisUser(),$this->settings->getMantisPassword(), $id );
+		return $getArray;
+	}
 
     /**
      * get all definition of projects define in the settings
@@ -99,24 +108,22 @@ class MantisConnector{
 	    }		
 		//var_dump($getArray);
 		$returnArray = array();
-		while( !empty($getArray) ){  
+		$projectids=$this->settings->getMantisProjectIds();
+		while( !empty($getArray) ){
 			$project = array_pop($getArray);
-			if( ( in_array( $project->id  , $this->settings->getMantisProjectIds() ) || $noCheck )
+			if( ( in_array( $project->id, $projectids ) || $noCheck )
 				&& $project->enabled ){
 				$returnArray[$project->id] = $project->name;
-				if( $withSubProjects ){
-					foreach( $project->subprojects as $p ){
-						$p->name = $project->name . " >> " . $p->name;
-						$p->parrentId = $project->id;
-						$this->settings->addMantisProjectId($p->id);
-						array_push($getArray, $p );
-					}
-				}
-
 			}
-			
-		}      
-			
+			if( $withSubProjects ){
+				foreach( $project->subprojects as $p ){
+					$p->name = $project->name . " >> " . $p->name;
+					$p->parrentId = $project->id;
+					// $this->settings->addMantisProjectId($p->id); // why change it?
+					array_push($getArray, $p );
+				}
+			}
+		}
 		
         return $returnArray;
     }
@@ -149,13 +156,30 @@ class MantisConnector{
 		$getBugArray = array();	
 		foreach($this->settings->getMantisProjectIds() as $id){   	
 			try{
-				$getBugArray =  array_merge($getBugArray, $client->mc_project_get_issues($this->settings->getMantisUser(),$this->settings->getMantisPassword(), $id ));
+				//mc_filter_get_issuesRequest
+				$page_len=50; // range 1 ..
+				for ($page = 1; true; $page++) {
+					$getBugArrayPage = $client->mc_project_get_issues($this->settings->getMantisUser(), $this->settings->getMantisPassword(), $id, $page, $page_len);
+					if (sizeof($getBugArrayPage)) {
+						$getBugArray = array_merge($getBugArray, $getBugArrayPage);
+						if (sizeof($getBugArrayPage)<$page_len) {
+							break;
+						}
+					} else {
+						break;
+					}
+				}
 			}catch (Exception $e){
 		    	//return false;
 				//var_dump($e);
 		    }
 		}
-
+		/* TODO due_date is NOT available in SOAP list query as mantis 1.2.14 .., only part of "IssueData", requiring additional call on details for every listed item
+		 * or patch mantis (http://www.mantisbt.org/bugs/view.php?id=15522)
+		 *   mantisbt/api/soap/mc_issue_api.php
+		 *   at LINE 1355  			function mci_issue_data_as_array( $p_issue_data, $p_user_id, $p_lang )
+		 *   add before return: 	$t_issue['due_date'] = SoapObjectsFactory::newDateTimeVar( $p_issue_data->due_date ) ;
+		 */
         return $getBugArray;
     }
     
@@ -179,7 +203,27 @@ class MantisConnector{
         }
         return $getBug;
     }
-    
+
+	/**
+	 * set a Bug by hi Id
+	 * @param $bugID
+	 * @param $bug
+	 * @return bool
+	 */
+	public function setBug($bugID,$bug){
+		require_once( JPATH_COMPONENT.DS.'soa_objects'.DS.'project_data.php');
+		if(empty($bugID)){
+			return;
+		}
+		$client = new soapclient($this->settings->getWsdlUrl());
+		try{
+			$setBug = $client->mc_issue_update($this->settings->getMantisUser(),$this->settings->getMantisPassword(), $bugID, $bug);
+		}catch (Exception $e){
+			return false;
+		}
+		return true;
+	}
+
 	/**
 	* Add bug report to mantis using webservice.
 	* @param object Class with bug report data inside.
