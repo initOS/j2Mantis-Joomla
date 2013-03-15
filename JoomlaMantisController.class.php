@@ -41,7 +41,8 @@ class JoomlaMantisController extends JController
 		        //return false;
 		}
 		$app = JFactory::getApplication('site');
-        $params =  & $app->getParams('com_j2mantis');
+		$params = JFactory::getApplication()->getParams('com_j2mantis');
+
 		$errors = array();
 
 		if($params->get('captcha') && !plgSystemJCCReCaptcha::confirm( $_POST['recaptcha_response_field'] )){
@@ -63,7 +64,9 @@ class JoomlaMantisController extends JController
 		}
 		$additional_information = $app->input->get('name', null, 'STR' ) . $additional_information;
 		$priority = JRequest::getInt('priority', 30);
-		$projectId = JRequest::getInt('project',0);
+		// $projectId = JRequest::getInt('project',0);
+		$projectIds = explode(',',$params->get('project'));
+		$projectId=$projectIds[0];
         $due_date = $app->input->get('due_date', null, 'STR' );
 		if ( $due_date == "" ) {
 			$due_date = null;
