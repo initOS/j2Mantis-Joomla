@@ -66,9 +66,11 @@ $fmt_date_short = "d M";
 					?>    </td>
 				<?php if ($this->hasactionholders) { ?>
                 <td> <?php
-					if ($bug->j2m['actionholderid']) {
+					if ($bug->j2m['actionholderid']>0) {
 						echo JHTML::tooltip(sprintf("%s (%s)", $bug->j2m['actionholder'], $bug->j2m['actionholderid'])
 							, 'action holder', '', $bug->j2m['actionholder']);
+					} else {
+						echo "&nbsp;";
 					}
 					?>  </td>
 				<?php } ?>

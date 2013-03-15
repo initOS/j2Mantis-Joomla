@@ -9,7 +9,7 @@
     <copyright>This component is released under the GNU/GPL License</copyright>
     <license>GNU GPL</license>
     <!--  The version string is recorded in the components table -->
-    <version>0.5.1</version>
+    <version>0.6</version>
     <!-- The description is optional and defaults to the name -->
     <description>view and add Mantis Bugs, add file and notice. Support multi projects and subprojects</description>
 
