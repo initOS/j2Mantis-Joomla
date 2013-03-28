@@ -1,18 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="j2Mantis show a Bug">
-		<message>show one seleceted Bug</message>
+	<layout title="Edit/show a Bug">
+		<message>Edit / show one seleceted Bug</message>
 	</layout>
-	<state>
-		<name>J2Manits show a Bug</name>
-		<description>shows a selected Bug from a given Project</description>
-		<params>
-			<param type="text" name="bug_id" size="3" label="Bug ID:" description="Please enter a id of a bug" />
+    <fields name="params">
+        <fieldset name="basic">
+            <field name="moduleclass_sfx" type="text" default="" label="Module Class Suffix"
+                   description="Suffix for individual css styling"/>
+        </fieldset>
+        <fieldset name="basic" label="J2Manits Bug overview">
+            <field type="text"
+                   name="bug_id"
+                   size="4"
+                   label="Bug ID:"
+                   description="Please enter a id of a bug" />
+        </fieldset>
+        <fieldset name="actionsholder" label="View accesslevel for assignment">
+            <field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
+                   description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
+        </fieldset>
+        <fieldset name="reportoptions" label="Options for fields">
+            <field name="fo_name"
+                   type="list"
+                   default="1"
+                   label="Name input"
+                   description="Does a name needs to be supplied upon issue submission">
+                <option value="0">Optional</option>
+                <option value="1">Mandatory</option>
+            </field>
+            <field name="fo_nameedit"
+                   type="radio"
+                   default="1"
+                   label="Name editable"
+                   description="Can user change name if pre-supplied based on logged in user">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </field>
+            <field type="spacer" name="myspacer" hr="true" />
+            <field name="fo_email"
+                   type="list"
+                   default="1"
+                   label="E-mail input"
+                   description="Does an email address need to be supplied upon issue submission">
+                <option value="0">Optional</option>
+                <option value="1">Mandatory</option>
+            </field>
+            <field name="fo_emailedit"
+                   type="radio"
+                   default="1"
+                   label="E-mail editable"
+                   description="Can user change email if pre-supplied based on logged in user">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </field>
+        </fieldset>
+        <fieldset name="credentials" label="Alternative mantis credentials">
+            <field type="text"
+                   name="username"
+                   autocomplete="off"
+                   size="30"
+                   default=""
+                   label="Username:"
+                   description="Please enter the required username"/>
+            <field type="password"
+                   name="password"
+                   autocomplete="off"
+                   size="30"
+                   default="" label="Password:"
+                   description="Please enter the required password"/>
+        </fieldset>
 
-		</params>
-		<advanced>
-		</advanced>
-		
-	</state>
-	
+    </fields>
 </metadata>

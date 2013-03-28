@@ -1,59 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="component" version="1.6.0" method="upgrade">
- <name>J2Mantis</name>
- <!-- The following elements are optional and free of formatting constraints -->
- <creationDate>13.03.2011</creationDate>
- <author>Markus Schneider - InitOS GmbH &amp; Co. KG</author>
- <authorEmail>markus.schneider@initos.com</authorEmail>
- <authorUrl>http://www.initos.com</authorUrl>
- <copyright>This component is released under the GNU/GPL License</copyright>
- <license>GNU GPL</license>
- <!--  The version string is recorded in the components table -->
- <version>0.4</version>
- <!-- The description is optional and defaults to the name -->
- <description>view and add Mantis Bugs, add file and notice. Support multi projects and subprojects</description>
- 
- <!-- Site Main File Copy Section -->
- <!-- Note the folder attribute: This attribute describes the folder
-      to copy FROM in the package to install therefore files copied
-      in this section are copied from /site/ in the package -->
- <files>
-  <filename>JoomlaMantisController.class.php</filename>
-  <filename>JoomlaMantisParameter.class.php</filename>
-  <filename>MantisConnector.class.php</filename>
-  <filename>j2mantis.php</filename>
-  <filename>index.html</filename>
-  <folder>views</folder>
-  <folder>soa_objects</folder>
-  <folder>assets</folder>
- </files>
+<install type="component" version="2.5.0" method="upgrade">
+    <name>J2Mantis</name>
+    <!-- The following elements are optional and free of formatting constraints -->
+    <creationDate>01.03.2013</creationDate>
+    <author>M. C. Dings</author>
+    <authorEmail>marco@dings-its.com</authorEmail>
+    <authorUrl>http://www.dings-its.com</authorUrl>
+    <copyright>This component is released under the GNU/GPL License</copyright>
+    <license>GNU GPL</license>
+    <!--  The version string is recorded in the components table -->
+    <version>0.6</version>
+    <!-- The description is optional and defaults to the name -->
+    <description>view and add Mantis Bugs, add file and notice. Support multi projects and subprojects</description>
 
-  <languages>
-		<language tag="en-GB">languages/en-GB.com_j2mantis.ini</language>
-		<language tag="de-DE">languages/de-DE.com_j2mantis.ini</language>
-  </languages>
- 
- <params>
-	 <param name="url" default="" />
-	 <param name="username" default="" />
-	 <param name="password" default="" />
-	 <param name="projekt" default="" />	
- 	 <param name="email" default="" />
- 	 <param name="captcha" default="1" />
- 	<param name="key" default="" />
-	  <param name="overview" default="1" />
- </params>
- 
- <administration>
-  <!-- Administration Menu Section -->
-  <menu>J2Mantis!</menu>
- 
-  <!-- Administration Main File Copy Section -->
-  <files folder="admin">
-   <filename>index.html</filename>
-   <filename>config.xml</filename>
-   <filename>j2mantis.php</filename>
-  </files>
- 
- </administration>
+    <!-- Site Main File Copy Section -->
+    <!-- Note the folder attribute: This attribute describes the folder
+         to copy FROM in the package to install therefore files copied
+         in this section are copied from /site/ in the package -->
+    <files>
+        <filename>JoomlaMantisController.class.php</filename>
+        <filename>JoomlaMantisParameter.class.php</filename>
+        <filename>MantisConnector.class.php</filename>
+        <filename>Helper.class.php</filename>
+        <filename>j2mantis.php</filename>
+        <filename>index.html</filename>
+        <folder>views</folder>
+        <folder>soa_objects</folder>
+        <folder>assets</folder>
+    </files>
+
+    <languages>
+        <language tag="en-GB">languages/en-GB.com_j2mantis.ini</language>
+        <language tag="de-DE">languages/de-DE.com_j2mantis.ini</language>
+    </languages>
+
+    <params>
+        <param name="url" default=""/>
+        <param name="username" default=""/>
+        <param name="password" default=""/>
+        <param name="project" default=""/>
+        <param name="email" default=""/>
+        <param name="captcha" default="1"/>
+        <param name="key" default=""/>
+        <param name="overview" default="1"/>
+    </params>
+
+    <administration>
+        <!-- Administration Menu Section -->
+        <menu>J2Mantis!</menu>
+
+        <!-- Administration Main File Copy Section -->
+        <files folder="admin">
+            <filename>index.html</filename>
+            <filename>config.xml</filename>
+            <filename>j2mantis.php</filename>
+        </files>
+
+    </administration>
 </install>
